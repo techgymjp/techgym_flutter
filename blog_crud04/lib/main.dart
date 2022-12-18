@@ -30,7 +30,6 @@ class _ToDoPageState extends State<ToDoPage> {
 
   final CollectionReference _todos =
       FirebaseFirestore.instance.collection('todo');
-  // Functions used for adding and editing
   Future<void> _add_or_update([DocumentSnapshot? documentSnapshot]) async {
     String mode = 'addition';
     if (documentSnapshot != null) {
@@ -48,7 +47,6 @@ class _ToDoPageState extends State<ToDoPage> {
                 top: 20,
                 left: 20,
                 right: 20,
-                // prevent the soft keyboard from covering text fields
                 bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -75,17 +73,14 @@ class _ToDoPageState extends State<ToDoPage> {
                   onPressed: () async {
                     final String? todo = _todoController.text;
                     final String? content = _contentController.text;
-                    // Addiing process
                     if (todo != null && content != null) {
                       if (mode == 'addition') {
-                        // Persist a new product to Firestore
                         await _todos.add({
                           "todo": todo,
                           "content": content,
                           "time": DateTime.now()
                         });
 
-                        // Show the snack bar for the add
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             backgroundColor: Colors.red,
                             content: Text(
@@ -96,14 +91,10 @@ class _ToDoPageState extends State<ToDoPage> {
                                   color: Colors.white),
                             )));
                       }
-                      // Editing process
                       if (mode == 'update') {
-                        // Update the product
                         await _todos
                             .doc(documentSnapshot!.id)
                             .update({"todo": todo, "content": content});
-
-                        // Show the snack bar for the edit
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                                 backgroundColor: Colors.red,
@@ -116,11 +107,8 @@ class _ToDoPageState extends State<ToDoPage> {
                                       backgroundColor: Colors.red),
                                 )));
                       }
-                      // Clear the text fields
                       _todoController.text = '';
                       _contentController.text = '';
-
-                      // Hide the bottom sheet
                       Navigator.of(context).pop();
                     }
                   },
@@ -131,11 +119,9 @@ class _ToDoPageState extends State<ToDoPage> {
         });
   }
 
-  // Deletion Processing Functions
   Future<void> _deleteProduct(String productId) async {
     await _todos.doc(productId).delete();
 
-    // Show the snack bar for the exclusion
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Colors.red,
         content: Text(
@@ -148,13 +134,6 @@ class _ToDoPageState extends State<ToDoPage> {
         )));
   }
 
-  // passData(DocumentSnapshot snap) {
-  //   Navigator.of(context).push(MaterialPageRoute(
-  //       builder: (context) => PostDetails(
-  //             snapshot: snap,
-  //           )));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -163,18 +142,15 @@ class _ToDoPageState extends State<ToDoPage> {
           title: const Text('ToDo App'),
           backgroundColor: Colors.red,
         ),
-        // StreamBuilder to pass Firestore values to ListView.builder
         body: StreamBuilder(
           stream: _todos.snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
             if (streamSnapshot.hasData) {
-              // Display FireStore values in list format
               return ListView.builder(
                 itemCount: streamSnapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   final DocumentSnapshot documentSnapshot =
                       streamSnapshot.data!.docs[index];
-                  // View documents in the card widget
                   return Card(
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
@@ -187,11 +163,11 @@ class _ToDoPageState extends State<ToDoPage> {
                         onTap: () {
                           // passData(documentSnapshot);
                         },
-                      ), // ToDo
+                      ),
                       subtitle: Text(
                         documentSnapshot['content'].toString(),
                         maxLines: 4,
-                      ), // Content
+                      ),
                       trailing: SizedBox(
                         width: 100,
                         child: Row(
@@ -202,7 +178,6 @@ class _ToDoPageState extends State<ToDoPage> {
                                   icon: const Icon(Icons.edit),
                                   onPressed: () =>
                                       _add_or_update(documentSnapshot)),
-                              // Delete Button
                               IconButton(
                                   color: Colors.red,
                                   icon: const Icon(Icons.delete),
@@ -221,7 +196,6 @@ class _ToDoPageState extends State<ToDoPage> {
             );
           },
         ),
-        // Add Button
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
           onPressed: () => _add_or_update(),

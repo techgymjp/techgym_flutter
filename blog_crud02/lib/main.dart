@@ -55,15 +55,14 @@ class _ToDoPageState extends State<ToDoPage> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  child: Text(mode == 'addition' ? 'Add' : 'Update'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                  ),
-                  onPressed: () async {
-                    final String? todo = _todoController.text;
-                    final String? content = _contentController.text;
-                    if (todo != null && content != null) {
-                        // Show the snack bar for the add
+                    child: Text(mode == 'addition' ? 'Add' : 'Update'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                    ),
+                    onPressed: () async {
+                      final String? todo = _todoController.text;
+                      final String? content = _contentController.text;
+                      if (todo != null && content != null) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             backgroundColor: Colors.red,
                             content: Text(
@@ -91,14 +90,12 @@ class _ToDoPageState extends State<ToDoPage> {
                       _contentController.text = '';
 
                       Navigator.of(context).pop();
-                    }
-                )
+                    })
               ],
             ),
           );
         });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +105,6 @@ class _ToDoPageState extends State<ToDoPage> {
           title: const Text('ToDo App'),
           backgroundColor: Colors.red,
         ),
-
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
           onPressed: () => _add_or_update(),

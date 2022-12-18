@@ -29,14 +29,12 @@ class _ToDoPageState extends State<ToDoPage> {
           title: const Text('ToDo App'),
           backgroundColor: Colors.red,
         ),
-
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
-          onPressed: () => print("tapped") ,
+          onPressed: () => print("tapped"),
           child: const Icon(Icons.add),
         ),
       ),
     );
   }
 }
-

@@ -55,18 +55,15 @@ class _ToDoPageState extends State<ToDoPage> {
           title: const Text('ToDo App'),
           backgroundColor: Colors.red,
         ),
-        // StreamBuilder to pass Firestore values to ListView.builder
         body: StreamBuilder(
           stream: _todos.snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
             if (streamSnapshot.hasData) {
-              // Display FireStore values in list format
               return ListView.builder(
                 itemCount: streamSnapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   final DocumentSnapshot documentSnapshot =
                       streamSnapshot.data!.docs[index];
-                  // View documents in the card widget
                   return Card(
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
@@ -100,7 +97,6 @@ class _ToDoPageState extends State<ToDoPage> {
   }
 }
 
-///////////////////////////////
 class PostDetails extends StatefulWidget {
   DocumentSnapshot snapshot;
 
@@ -171,13 +167,11 @@ class _PostDetailsState extends State<PostDetails> {
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.hasData) {
-                      // Display FireStore values in list format
                       return ListView.builder(
                         itemCount: streamSnapshot.data!.docs.length,
                         itemBuilder: (context, index) {
                           final DocumentSnapshot documentSnapshot =
                               streamSnapshot.data!.docs[index];
-                          // View documents in the card widget
                           return Card(
                             margin: const EdgeInsets.all(10),
                             child: ListTile(
@@ -217,7 +211,6 @@ class _PostDetailsState extends State<PostDetails> {
   final TextEditingController _contentController = TextEditingController();
 }
 
-///////////////////////////////
 class SubPostDetails extends StatefulWidget {
   DocumentSnapshot snapshot;
 
